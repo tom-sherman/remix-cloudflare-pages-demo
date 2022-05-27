@@ -1,12 +1,16 @@
 import { json, LoaderFunction } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 
-export const loader: LoaderFunction = () => json({
-  now: Date.now()
-})
+export const loader: LoaderFunction = ({ request}) => {
+  const url = new URL(request.url);
+  url.pathname = '/api/now';
+  return fetch(url.toString());
+}
 
 export default function Index() {
   const data = useLoaderData();
+
+  console.log(data)
 
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
